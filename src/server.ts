@@ -1,5 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv-flow';
+import TodoRouter from './routes/TodoRoutes';
 
 config();
 
@@ -11,6 +12,8 @@ const app = express();
 app.get('/', (_req, res) => {
     res.send('Hello World');
 });
+
+app.use('/todos', TodoRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on : ${appUrl}:${port}`);
