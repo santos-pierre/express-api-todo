@@ -1,4 +1,5 @@
 import prisma from '../lib/prisma';
+import slugify from 'slugify';
 
 class Todo {
     public static all = async (): Promise<Todo[]> => {
@@ -12,6 +13,13 @@ class Todo {
             throw new Error(`Todo with slug: '${slug}' does not exist.`);
         }
         return todo;
+    };
+
+    public static store = async (attributes: { title: string }) => {
+        const data = { ...attributes, slug: slugify(attributes.title) };
+        const newTodo = await prisma.todo.create({ data });
+
+        return newTodo;
     };
 
     public static delete = async (slug: string) => {
