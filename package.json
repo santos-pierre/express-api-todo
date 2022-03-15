@@ -4,7 +4,7 @@
     "description": "",
     "main": "./src/server.ts",
     "scripts": {
-        "dev": "nodemon",
+        "dev": "cross-env NODE_ENV=dev nodemon",
         "format": "prettier --write .",
         "test": "echo \"Error: no test specified\" && exit 1",
         "studio": "prisma studio",
@@ -16,6 +16,7 @@
     "dependencies": {
         "-": "^0.0.1",
         "@prisma/client": "^3.10.0",
+        "cross-env": "^7.0.3",
         "D": "^1.0.0",
         "dotenv-flow": "^3.2.0",
         "express": "^4.17.3",

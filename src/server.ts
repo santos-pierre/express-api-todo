@@ -5,8 +5,7 @@ import ApiMiddleware from './middleware/ApiMiddleware';
 
 config();
 
-const port = process.env.APP_PORT;
-const appUrl = process.env.APP_URL;
+const { APP_PORT, APP_URL } = process.env;
 
 const app = express();
 
@@ -18,6 +17,6 @@ app.get('/', (_req, res) => {
 
 app.use('/api/todos', ApiMiddleware(), TodoRouter);
 
-app.listen(port, () => {
-    console.log(`Server is running on : ${appUrl}:${port}`);
+app.listen(APP_PORT, () => {
+    console.log(`Server is running on : ${APP_URL}:${APP_PORT}`);
 });
