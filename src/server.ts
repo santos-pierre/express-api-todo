@@ -1,7 +1,7 @@
 import express from 'express';
 import { config } from 'dotenv-flow';
 import TodoRouter from './routes/TodoRoutes';
-import ApiMiddleware from './middleware/ApiMiddleware';
+import ApiMiddleware from '@middleware/ApiMiddleware';
 
 config();
 

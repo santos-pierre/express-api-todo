@@ -16,10 +16,13 @@ class Todo {
     };
 
     public static store = async (attributes: { title: string }) => {
-        const data = { ...attributes, slug: slugify(attributes.title) };
-        const newTodo = await prisma.todo.create({ data });
-
-        return newTodo;
+        try {
+            const data = { ...attributes, slug: slugify(attributes.title, { lower: true }) };
+            const newTodo = await prisma.todo.create({ data });
+            return newTodo;
+        } catch (error) {
+            throw new Error(`Something went wrong while storing your data! Please try again later! `);
+        }
     };
 
     public static delete = async (slug: string) => {

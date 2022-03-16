@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Todo from '../models/Todo';
+import Todo from '@models/Todo';
 
 const index = async (_req: Request, res: Response) => {
     const todos = await Todo.all();
@@ -15,8 +15,13 @@ const show = async (req: Request, res: Response) => {
     }
 };
 
-const store = (_req: Request, res: Response) => {
-    return res.sendStatus(501);
+const store = async (req: Request, res: Response) => {
+    try {
+        const newTodo = await Todo.store(req.body);
+        return res.status(201).json(newTodo);
+    } catch (error: any) {
+        return res.status(503).json({ status: 503, message: error.message });
+    }
 };
 
 const update = (_req: Request, res: Response) => {
