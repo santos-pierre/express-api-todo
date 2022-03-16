@@ -8,7 +8,7 @@ const TodoSchema = yup.object({
         .required()
         .test({
             name: 'unique',
-            message: 'This todo list already exist.',
+            message: 'The name already exist. The name must be unique',
             test: (value) => (value ? checkUnique(value) : false),
         }),
 });

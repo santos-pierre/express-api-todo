@@ -25,6 +25,18 @@ class Todo {
         }
     };
 
+    public static update = async (slug: string, attributes: { title: string }) => {
+        try {
+            const data = { ...attributes, slug: slugify(attributes.title, { lower: true }) };
+            const updatedTodo = await prisma.todo.update({ where: { slug }, data });
+            return updatedTodo;
+        } catch (error) {
+            console.log(error);
+
+            // throw new Error(`Something went wrong while storing your data! Please try again later! `);
+        }
+    };
+
     public static delete = async (slug: string) => {
         try {
             const deletedTodo = await prisma.todo.delete({ where: { slug } });

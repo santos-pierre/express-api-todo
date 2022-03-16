@@ -24,8 +24,14 @@ const store = async (req: Request, res: Response) => {
     }
 };
 
-const update = (_req: Request, res: Response) => {
-    return res.sendStatus(501);
+const update = async (req: Request, res: Response) => {
+    const { slug } = req.params;
+    try {
+        const updatedTodo = await Todo.update(slug, req.body);
+        return res.status(200).json(updatedTodo);
+    } catch (error: any) {
+        return res.status(503).json({ status: 503, message: error.message });
+    }
 };
 
 const destroy = async (req: Request, res: Response) => {
