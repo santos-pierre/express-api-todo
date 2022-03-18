@@ -2,6 +2,7 @@ import express from 'express';
 import { config } from 'dotenv-flow';
 import TodoRouter from './routes/TodoRoutes';
 import ApiMiddleware from '@middleware/ApiMiddleware';
+import TaskRouter from '@routes/TaskRoutes';
 
 config();
 
@@ -16,6 +17,7 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/api/todos', ApiMiddleware(), TodoRouter);
+app.use('/api', ApiMiddleware(), TaskRouter);
 
 app.listen(APP_PORT, () => {
     console.log(`Server is running on : ${APP_URL}:${APP_PORT}`);
