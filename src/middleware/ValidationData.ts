@@ -1,6 +1,7 @@
+import prisma from 'lib/prisma';
 import { Request, Response, NextFunction } from 'express';
 import { AnyObjectSchema, ValidationError } from 'yup';
-import FormErrors from '../types/FormErrors';
+import FormErrors from 'types/FormErrors';
 
 /**
  *  Middleware to validate and format yup errors.
@@ -11,6 +12,15 @@ import FormErrors from '../types/FormErrors';
 const ValidationData = (schema: AnyObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
+            if (['PATCH'].includes(req.method)) {
+                const todo = await prisma.todo.findUnique({ where: { slug: req.params.slug } });
+                if (!todo) {
+                    return res.status(404).json({
+                        status: 404,
+                        message: `Todo with slug: '${req.params.slug}' does not exist.`,
+                    });
+                }
+            }
             // Option abortEarly to false, to retrieve all the errors and not just stop at the first encounter.
             await schema.validate(req.body, { abortEarly: false });
             next();

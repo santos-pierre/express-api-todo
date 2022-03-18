@@ -15,7 +15,7 @@ class Todo {
         return todo;
     };
 
-    public static store = async (attributes: { title: string }) => {
+    public static store = async (attributes: { title: string }): Promise<Todo> => {
         try {
             const data = { ...attributes, slug: slugify(attributes.title, { lower: true }) };
             const newTodo = await prisma.todo.create({ data });
@@ -25,19 +25,17 @@ class Todo {
         }
     };
 
-    public static update = async (slug: string, attributes: { title: string }) => {
+    public static update = async (slug: string, attributes: { title: string }): Promise<Todo> => {
         try {
             const data = { ...attributes, slug: slugify(attributes.title, { lower: true }) };
             const updatedTodo = await prisma.todo.update({ where: { slug }, data });
             return updatedTodo;
         } catch (error) {
-            console.log(error);
-
-            // throw new Error(`Something went wrong while storing your data! Please try again later! `);
+            throw new Error(`Something went wrong while storing your data! Please try again later! `);
         }
     };
 
-    public static delete = async (slug: string) => {
+    public static delete = async (slug: string): Promise<Todo> => {
         try {
             const deletedTodo = await prisma.todo.delete({ where: { slug } });
             return deletedTodo;
